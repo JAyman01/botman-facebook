@@ -4,11 +4,7 @@ namespace App\Conversations;
 
 use BotMan\BotMan\Messages\Attachments\Location;
 use BotMan\BotMan\Messages\Conversations\Conversation;
-use BotMan\BotMan\Messages\Incoming\Answer;
-use BotMan\BotMan\Messages\Outgoing\Actions\Button;
-use BotMan\BotMan\Messages\Outgoing\Question;
-use BotMan\Drivers\Facebook\Extensions\QuickReplyButton;
-use Illuminate\Support\Facades\Log;
+use Exception;
 
 class LocationConversation extends Conversation
 {
@@ -19,11 +15,14 @@ class LocationConversation extends Conversation
      */
     public function askLocation()
     {
-        $this->askForLocation('Please send your location', function (Location $location) {
-            // Log::info($location);
-            $this->bot->reply('Awesome 🤘' . $location->getLatitude());
-            $this->bot->reply('Awesome 🤘' . $location->getLongitude());
-        });
+        try {
+            $this->askForLocation('Please send your location', function (Location $location) {
+                $this->bot->reply('Awesome 🤘your lat is: ' . $location->getLatitude());
+                $this->bot->reply('Awesome 🤘your long is: ' . $location->getLongitude());
+            });
+        } catch (Exception $e) {
+            $this->bot->reply('Oops something went wrong !! try again later');
+        }
     }
 
     public function run()

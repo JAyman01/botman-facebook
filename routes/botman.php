@@ -6,9 +6,6 @@ use App\Conversations\QuickReplyConversation;
 use App\Http\Controllers\BotManController;
 use BotMan\BotMan\Messages\Attachments\Image;
 use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
-use BotMan\Drivers\Facebook\Extensions\Element;
-use BotMan\Drivers\Facebook\Extensions\ElementButton;
-use BotMan\Drivers\Facebook\Extensions\ListTemplate;
 
 $botman = resolve('botman');
 
@@ -48,9 +45,6 @@ $botman->hears('I want file', function ($bot) {
     $bot->startConversation(new AttachmentConversation());
 });
 
-
-
-
 $botman->hears('I want list', function ($bot) {
     $bot->typesAndWaits(2);
     $attachment = new Image('https://botman.io/img/logo.png');
@@ -63,4 +57,13 @@ $botman->hears('I want list', function ($bot) {
     $bot->reply($message);
 });
 
+
+
 $botman->hears('Start conversation', BotManController::class . '@startConversation');
+
+
+$botman->fallback(function ($bot) {
+    $bot->reply('Sorry, I did not understand these commands. try again');
+});
+
+// $botman->

@@ -18,6 +18,7 @@ $botman->hears('Hi', function ($bot) {
 $botman->hears('Heyheyhey', function ($bot) {
     $bot->typesAndWaits(2);
     $bot->reply('Hello!');
+    info($bot->getMessage()->getPayload());
 });
 
 
